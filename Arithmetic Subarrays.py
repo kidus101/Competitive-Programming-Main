@@ -1,25 +1,19 @@
 class Solution:
     def checkArithmeticSubarrays(self, nums: List[int], l: List[int], r: List[int]) -> List[bool]:
-        N = len(nums)
         
-        def boolArithmetic(left , right):
-            k = list(sorted(nums[left:right +1]))
-            if len(k) == 1:
+        
+        def boolArithmetic(list):
+            if len(list) <= 2:
                 return True
-            
-            delta = k[1]-k[0]
-            
-            for x,y in zip(k,k[1:]):
-                if y -x != delta :
-                    return False
-            return True
-        
+            else:
+                list.sort()
+                delta = list[1]-list[0]
+                for i in range(len(list)-2):
+                    if delta != list[i+2]-list[i+1]:
+                        return False
+                return True
         result = []
-        
-        for left , right in zip (l ,r):
-            result +=[boolArithmetic(left,right)]
+        for i in range(len(l)):
+            sub_list = nums[l[i]: r[i]+1]
+            result.append(boolArithmetic(sub_list))
         return result
-    
-    # Time Complexity:O(n)
-    # Space Complecity:O(n)
-        
